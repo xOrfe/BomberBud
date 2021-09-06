@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using xOrfe.Utilities;
+﻿using xOrfe.Utilities;
 
 namespace Project.Scripts.Managers
 {

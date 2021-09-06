@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Project.Scripts.Characters;
 using Project.Scripts.Scriptables;
 using UnityEngine;
-using UnityEngine.Serialization;
 using xOrfe.Utilities;
 using Random = UnityEngine.Random;
 using Utils = Project.Scripts.Utilities.Utilities;

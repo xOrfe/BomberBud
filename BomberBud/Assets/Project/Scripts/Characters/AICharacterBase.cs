@@ -1,6 +1,4 @@
-﻿using System;
-using Project.Scripts.Managers;
-using UnityEngine;
+﻿using Project.Scripts.Managers;
 
 namespace Project.Scripts.Characters
 {

@@ -1,6 +1,4 @@
-﻿using Project.Scripts.Characters;
-using Project.Scripts.Managers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project.Scripts.Utilities
 {

@@ -1,5 +1,4 @@
-﻿using UnityEditor.Rendering.LookDev;
-using UnityEngine;
+﻿using UnityEngine;
 namespace Project.Scripts.Characters
 {
     public abstract class Character : Content, IAttacker

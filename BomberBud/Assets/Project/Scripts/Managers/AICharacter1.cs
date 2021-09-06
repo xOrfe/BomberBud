@@ -1,5 +1,4 @@
 ﻿using Project.Scripts.Characters;
-using UnityEngine;
 
 namespace Project.Scripts.Managers
 {

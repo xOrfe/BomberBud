@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Project.Scripts.Managers;
 using UnityEngine;
 using Utils = Project.Scripts.Utilities.Utilities;
@@ -20,15 +19,15 @@ namespace Project.Scripts.Characters
             for (int i = -2; i < +3; i++)
             {
                 int chunk = Utils.GetIndexFromCoord(CurrentChunk,matrixScale) + i;
-                if((CurrentChunk.y % 2) != 0)DestroyChunk(chunk,matrixScale);
+                if((CurrentChunk.y % 2) != 0)DestroyChunk(chunk);
                 if (i == 0) continue;
                 chunk = Utils.GetIndexFromCoord(CurrentChunk,matrixScale) + (i * matrixScale.x);
-                if((CurrentChunk.x % 2) != 0)DestroyChunk(chunk,matrixScale);
+                if((CurrentChunk.x % 2) != 0)DestroyChunk(chunk);
             }
             this.Destroy();
         }
 
-        private void DestroyChunk(int chunk,Vector2Int matrixScale)
+        private void DestroyChunk(int chunk)
         {
             if (chunk >= 0  && chunk < LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixLength)
             {
