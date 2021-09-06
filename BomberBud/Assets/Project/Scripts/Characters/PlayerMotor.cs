@@ -17,13 +17,14 @@ namespace Project.Scripts.Characters
         {
             _movement = _playerInputActions.Player.Movement;
             _movement.Enable();
-
+            
             _playerInputActions.Player.Attack.performed += Attack;
             _playerInputActions.Player.Attack.Enable();
         }
 
         private void Update()
         {
+            Debug.Log(_movement.ReadValue<Vector2>() + "");
             Vector2 val = _movement.ReadValue<Vector2>();
             if (val.x + val.y == 0) return;
             characterBase.AddForce(val,characterBase.MoveSpeed * Time.deltaTime);
@@ -31,6 +32,7 @@ namespace Project.Scripts.Characters
 
         private void Attack(InputAction.CallbackContext obj)
         {
+            Debug.Log("asdas");
             characterBase.Attack();
         }
 
