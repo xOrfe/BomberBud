@@ -24,7 +24,6 @@ namespace Project.Scripts.Characters
 
         private void Update()
         {
-            Debug.Log(_movement.ReadValue<Vector2>() + "");
             Vector2 val = _movement.ReadValue<Vector2>();
             if (val.x + val.y == 0) return;
             characterBase.AddForce(val,characterBase.MoveSpeed * Time.deltaTime);

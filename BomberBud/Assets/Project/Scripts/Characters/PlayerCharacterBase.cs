@@ -32,9 +32,10 @@ namespace Project.Scripts.Characters
             if(InPhysicsProcessorQueue)PhysicsProcessor.Instance.Remove(this);
         }
         
-        public virtual bool Destroy()
+        public override bool Destroy()
         {
             GameManager.Instance.IsGameplayRunning = false;
+            Destroy(gameObject);
             return true;
         }
     }
