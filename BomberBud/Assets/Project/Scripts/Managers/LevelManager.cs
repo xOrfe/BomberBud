@@ -37,8 +37,8 @@ namespace Project.Scripts.Managers
         {
             PopulateMap();
             GameObject player = Instantiate(LevelDefinitionScriptable.MapDefinition.PlayerPrefab);
-            player.GetComponent<Content>().CurrentChunk = new Vector2Int(1, 1);
-            player.transform.position = Utils.GetWorldFromIndex(LevelDefinitionScriptable.MapDefinition.MatrixScale.x + 1,LevelDefinitionScriptable.MapDefinition.MatrixScale);
+            player.GetComponent<Content>().CurrentChunk = new Vector2Int(1, 2);
+            player.transform.position = Utils.GetWorldFromIndex(LevelDefinitionScriptable.MapDefinition.MatrixScale.x * 2 + 1,LevelDefinitionScriptable.MapDefinition.MatrixScale);
         }
         
         public void PopulateMap()
@@ -85,6 +85,11 @@ namespace Project.Scripts.Managers
         private void PopulateOuterWalls()
         {
             GameObject go = LevelDefinitionScriptable.MapDefinition.WallPrefab;
+            
+            CreateContent(new Vector2Int(1, 1), go);
+            CreateContent(new Vector2Int(LevelDefinitionScriptable.MapDefinition.MatrixScale.x - 2, 1), go);
+
+            
             for (int x = 0; x < LevelDefinitionScriptable.MapDefinition.MatrixScale.y; x++)
             {
 
