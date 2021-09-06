@@ -61,17 +61,16 @@ namespace Project.Scripts.Managers
         {
             if(_playerCharacterBase.Velocity != Vector2.zero)
                 CalculatePhysicsAndTryToMove(_playerCharacterBase,deltaTime);
-            else
-            {
-                Vector2Int matrixScale = Managers.LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixScale;
+            
+            Vector2Int matrixScale = Managers.LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixScale;
                 
-                int chunkIndex = Utils.GetIndexFromCoord(_playerCharacterBase.CurrentChunk,matrixScale);
+            int chunkIndex = Utils.GetIndexFromCoord(_playerCharacterBase.CurrentChunk,matrixScale);
 
-                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex + 1);
-                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex - 1);
-                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex + matrixScale.x);
-                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex - matrixScale.x);
-            }
+            CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex);
+            CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex + 1);
+            CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex - 1);
+            CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex + matrixScale.x);
+            CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex - matrixScale.x);
                 
         }
         private void CalculateQueue(float deltaTime)
@@ -192,7 +191,6 @@ namespace Project.Scripts.Managers
                         nonRigidContent.OnCollision(content);
                         content.OnCollision(nonRigidContent);
                         if (!nonRigidContent.IsStatic) nonRigidContent.AddForce(content.Velocity,1);
-                        if(!content.IsDummie)content.Velocity = Vector2.zero;
                         return true;
                     }
                 }
