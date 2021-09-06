@@ -24,6 +24,8 @@ namespace Project.Scripts
         float Mass { set; get; }
         float Friction { set; get; }
         string CollisionTag { set; get; }
+        bool isDestroyable { set; get; }
+        bool Destroy();
         void OnCollision(Content content);
     }
     public interface IMovable
@@ -35,12 +37,7 @@ namespace Project.Scripts
     {
         SkinnedMeshRenderer Renderer{ set; get; }
         void SetLayerOrder(int layerOrder);
-        MaterialPropertyBlock MaterialPropertyBlock{ set; get; }
-    }
-    
-    public interface IDestroyable
-    {
-        bool Destroy();
+        MaterialPropertyBlock MaterialPropertyBlock { set; get; }
     }
     public interface IAttacker
     {

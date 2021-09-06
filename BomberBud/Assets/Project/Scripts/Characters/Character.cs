@@ -2,7 +2,7 @@
 using UnityEngine;
 namespace Project.Scripts.Characters
 {
-    public abstract class Character : Content,IDestroyable, IAttacker
+    public abstract class Character : Content, IAttacker
     {
             
         private CharacterState _characterState;
@@ -25,11 +25,6 @@ namespace Project.Scripts.Characters
         }
 
         public virtual bool Attack()
-        {
-            throw new System.NotImplementedException();
-        }
-        
-        public virtual bool Destroy()
         {
             throw new System.NotImplementedException();
         }

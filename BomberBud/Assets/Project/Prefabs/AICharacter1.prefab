@@ -104,4 +104,5 @@ MonoBehaviour:
   _mass: 1
   _friction: 0
   _collisionTag: 
+  _isDestroyable: 1
   _moveSpeed: 15

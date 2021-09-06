@@ -1,5 +1,6 @@
 ﻿using Project.Scripts.Managers;
 using UnityEngine;
+using Utils = Project.Scripts.Utilities.Utilities;
 
 namespace Project.Scripts
 {
@@ -8,11 +9,21 @@ namespace Project.Scripts
     {
         public ContentType ContentType { get; set; }
         
-        [SerializeField]private Vector2Int _currentChunk;
+        [SerializeField]private volatile int _currentChunkX;
+        [SerializeField]private volatile int _currentChunkY;
         public Vector2Int CurrentChunk
         {
-            get => _currentChunk;
-            set => _currentChunk = value;
+            get
+            {
+                Vector2Int pos = new Vector2Int(_currentChunkX, _currentChunkY);
+                return pos;
+            }
+            set
+            {
+                Debug.Log("Set");
+                _currentChunkX = value.x;
+                _currentChunkY = value.y;
+            }
         }
 
         [SerializeField]private bool _isDummie;
@@ -65,17 +76,34 @@ namespace Project.Scripts
         }
 
         [SerializeField]private float _friction;
-        [SerializeField]public float Friction
+        public float Friction
         {
             get => _friction;
             set => _friction = value;
         }
 
         [SerializeField]private string _collisionTag;
-        [SerializeField]public string CollisionTag
+        public string CollisionTag
         {
             get => _collisionTag;
             set => _collisionTag = value;
+        }
+        
+        [SerializeField] private bool _isDestroyable;
+        public bool isDestroyable
+        {
+            get => _isDestroyable;
+            set => _isDestroyable = value;
+        }
+
+        public virtual bool Destroy()
+        {
+            if(InPhysicsProcessorQueue)PhysicsProcessor.Instance.Remove(this);
+            Vector2Int matrixScale = LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixScale;
+            
+            int chunk = Utils.GetIndexFromCoord(CurrentChunk,matrixScale);
+            LevelManager.Instance.MapChunkMatrix[chunk].Remove(this);
+            return true;
         }
 
         public virtual void OnCollision(Content content)

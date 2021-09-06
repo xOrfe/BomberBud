@@ -104,7 +104,10 @@ namespace Project.Scripts.Managers
             GameObject go = Instantiate(prefab);
             go.transform.position = Utils.GetWorldFromCoordinate(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);
             int index = Utils.GetIndexFromCoord(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);
-            MapChunkMatrix[index].Add(go.GetComponent<Content>());
+            Content content = go.GetComponent<Content>();
+            MapChunkMatrix[index].Add(content);
+            content.CurrentChunk = pos;
+
         }
         public void Reset()
         {
@@ -138,7 +141,6 @@ namespace Project.Scripts.Managers
         
         public void Add(Content content)
         {
-            content.CurrentChunk = Coord;
             if (content.IsRigid)
             {
                 ContentsRigid.Add(content);

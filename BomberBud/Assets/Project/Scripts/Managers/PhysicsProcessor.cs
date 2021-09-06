@@ -134,13 +134,14 @@ namespace Project.Scripts.Managers
 
 
             if (moveChunkIndex < 0 || moveChunkIndex >
-                Managers.LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixLength - 1) return;
+                Managers.LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixLength - 1)
+            {
+                return;
+            }
 
             if (Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].isRigid 
                 && Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].LayerRigidContentCounts[content.PhysicsLayers[0]] > 0)
             {
-                
-                bool collided = false;
                 Content collidedObj;
                 foreach (var rigidContent in Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].ContentsRigid)
                 {
@@ -155,17 +156,19 @@ namespace Project.Scripts.Managers
                         return;
                     }
                 }
-                
-                
             }
             Vector2 moveChunkPos = Utils.GetWorldFromCoordinate(moveChunk,matrixScale);
-            
+            Debug.Log(""+(Vector2.Distance(currentPos, moveChunkPos) < 0.5f));
+            //Debug.Log("3333" + (moveChunk != content.CurrentChunk) + "--" + (Vector2.Distance(currentPos, moveChunkPos) < 0.49f));
+
             if ((moveChunk != content.CurrentChunk)
-                && Vector2.Distance(currentPos, moveChunkPos) < 0.49f)
+                && Vector2.Distance(currentPos, moveChunkPos) < 0.5f)
             {
                 int currentChunkIndex = Utils.GetIndexFromCoord(content.CurrentChunk, matrixScale);
                 Managers.LevelManager.Instance.MapChunkMatrix[currentChunkIndex].Remove(content);
                 Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].Add(content);
+                content.CurrentChunk = moveChunk;
+                Debug.Log("4444");
             }
                 
             content.gameObject.transform.position = currentPos;

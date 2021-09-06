@@ -53,6 +53,7 @@ MonoBehaviour:
   _mass: 2
   _friction: 5
   _collisionTag: 
+  _isDestroyable: 1
   _moveSpeed: 15
   attackPrefab: {fileID: 3920749474080601994, guid: de97b178c0e4de14cb17e743a3685f98,
     type: 3}
