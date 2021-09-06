@@ -32,6 +32,13 @@ namespace Project.Scripts.Managers
             //GameManager.Instance.LevelStart(this);
             Random.InitState(LevelDefinitionScriptable.MapDefinition.Seed);
             GameManager.Instance.IsGameplayRunning = true;
+
+            Vector2Int matrixScale = _levelDefinitionScriptable.MapDefinition.MatrixScale;
+            if ((matrixScale.x % 2 == 0)) _levelDefinitionScriptable.MapDefinition.MatrixScale += new Vector2Int(1,0);
+            if ((matrixScale.y % 2 == 0)) _levelDefinitionScriptable.MapDefinition.MatrixScale += new Vector2Int(0,1);
+            Debug.Log(_levelDefinitionScriptable.MapDefinition.MatrixScale + "");
+            GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize =
+                    (((float) _levelDefinitionScriptable.MapDefinition.MatrixScale.y / 11) * 5.5f);
         }
         public void PopulateWorld()
         {

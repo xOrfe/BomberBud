@@ -29,4 +29,4 @@ MonoBehaviour:
     DestroyableTextures: []
     AICharacterPrefab: {fileID: 3338260538207035020, guid: 745d97b9478f4bc4a91d4c5ebd889d9f,
       type: 3}
-    MatrixScale: {x: 19, y: 11}
+    MatrixScale: {x: 38, y: 22}
