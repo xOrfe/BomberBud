@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapDefinition:
     Seed: 2000
-    AICharacterCount: 0
+    AICharacterCount: 5
     DestroyableSpawnProbability: 25
     PlayerPrefab: {fileID: 2244431976377327916, guid: 99ee9818dccddcb45a918d5868fb5b65,
       type: 3}
