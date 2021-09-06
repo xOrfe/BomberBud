@@ -22,6 +22,8 @@ MonoBehaviour:
       type: 3}
     WallPrefab: {fileID: 5562091221784850881, guid: e4d5cef1ccf786e4a850bb6cfb1ecc9c,
       type: 3}
+    EmptyWallPrefab: {fileID: 3924688779035597919, guid: a264edb755bbf594893cf458bec9e88c,
+      type: 3}
     ObstaclePrefab: {fileID: 461732531754063736, guid: afc28a1a5ccbcde47ab49aa903756c17,
       type: 3}
     DestroyableTextures: []

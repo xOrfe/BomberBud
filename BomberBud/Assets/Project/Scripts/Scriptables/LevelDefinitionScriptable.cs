@@ -20,6 +20,7 @@ namespace Project.Scripts.Scriptables
         
         public GameObject GroundPrefab;
         public GameObject WallPrefab;
+        public GameObject EmptyWallPrefab;
         public GameObject ObstaclePrefab;
         
         public Sprite[] DestroyableTextures;

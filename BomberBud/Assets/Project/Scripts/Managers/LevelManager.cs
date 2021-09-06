@@ -85,14 +85,14 @@ namespace Project.Scripts.Managers
         private void PopulateOuterWalls()
         {
             GameObject go = LevelDefinitionScriptable.MapDefinition.WallPrefab;
+            GameObject EmptyWallGo = LevelDefinitionScriptable.MapDefinition.EmptyWallPrefab;
             
             CreateContent(new Vector2Int(1, 1), go);
             CreateContent(new Vector2Int(LevelDefinitionScriptable.MapDefinition.MatrixScale.x - 2, 1), go);
 
             
-            for (int x = 0; x < LevelDefinitionScriptable.MapDefinition.MatrixScale.y; x++)
+            for (int x = 1; x < LevelDefinitionScriptable.MapDefinition.MatrixScale.y - 1; x++)
             {
-
                 CreateContent(new Vector2Int(0, x), go);
                 CreateContent(new Vector2Int(LevelDefinitionScriptable.MapDefinition.MatrixScale.x - 1, x), go);
             }
@@ -102,11 +102,24 @@ namespace Project.Scripts.Managers
                 CreateContent(new Vector2Int(y, 0), go);
                 CreateContent(new Vector2Int(y,LevelDefinitionScriptable.MapDefinition.MatrixScale.y - 1), go);
             }
+            
+            for (int x = 0; x < LevelDefinitionScriptable.MapDefinition.MatrixScale.y ; x++)
+            {
+                CreateContent(new Vector2Int(-1, x), EmptyWallGo,true);
+                CreateContent(new Vector2Int(LevelDefinitionScriptable.MapDefinition.MatrixScale.x , x), EmptyWallGo,true);
+            }
+            for (int y = -1; y < LevelDefinitionScriptable.MapDefinition.MatrixScale.x + 1; y++)
+            {
+                CreateContent(new Vector2Int(y, -1), EmptyWallGo,true);
+                CreateContent(new Vector2Int(y,LevelDefinitionScriptable.MapDefinition.MatrixScale.y), EmptyWallGo,true);
+            }
+            
         }
-        public void CreateContent(Vector2Int pos,GameObject prefab)
+        public void CreateContent(Vector2Int pos,GameObject prefab, bool isEmpty = false)
         {
             GameObject go = Instantiate(prefab);
             go.transform.position = Utils.GetWorldFromCoordinate(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);
+            if (isEmpty) return;
             int index = Utils.GetIndexFromCoord(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);
             Content content = go.GetComponent<Content>();
             MapChunkMatrix[index].Add(content);
