@@ -63,10 +63,14 @@ namespace Project.Scripts.Managers
                 CalculatePhysicsAndTryToMove(_playerCharacterBase,deltaTime);
             else
             {
-                int chunkIndex = Utils.GetIndexFromCoord(_playerCharacterBase.CurrentChunk,
-                    Managers.LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixScale);
-                foreach (var content in Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].ContentsNonRigid)
-                    if(content.IsDummie)_playerCharacterBase.OnCollision(content);
+                Vector2Int matrixScale = Managers.LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixScale;
+                
+                int chunkIndex = Utils.GetIndexFromCoord(_playerCharacterBase.CurrentChunk,matrixScale);
+
+                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex + 1);
+                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex - 1);
+                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex + matrixScale.x);
+                CheckCollisionInChunkNonRigid(_playerCharacterBase, chunkIndex - matrixScale.x);
             }
                 
         }
@@ -139,28 +143,10 @@ namespace Project.Scripts.Managers
                 return;
             }
 
-            if (Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].isRigid 
-                && Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].LayerRigidContentCounts[content.PhysicsLayers[0]] > 0)
-            {
-                Content collidedObj;
-                foreach (var rigidContent in Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].ContentsRigid)
-                {
-                    if (rigidContent == content) continue;
-                    if (Vector2.Distance(currentPos, rigidContent.Position) < 0.99f)
-                    {
-                        collidedObj = rigidContent;
-                        collidedObj.OnCollision(content);
-                        content.OnCollision(collidedObj);
-                        if (!collidedObj.IsStatic) collidedObj.AddForce(content.Velocity,1);
-                        if(!content.IsDummie)content.Velocity = Vector2.zero;
-                        return;
-                    }
-                }
-            }
+            if (CheckCollisionInChunk(content,moveChunkIndex)) return;
+            
             Vector2 moveChunkPos = Utils.GetWorldFromCoordinate(moveChunk,matrixScale);
-            Debug.Log(""+(Vector2.Distance(currentPos, moveChunkPos) < 0.5f));
-            //Debug.Log("3333" + (moveChunk != content.CurrentChunk) + "--" + (Vector2.Distance(currentPos, moveChunkPos) < 0.49f));
-
+            
             if ((moveChunk != content.CurrentChunk)
                 && Vector2.Distance(currentPos, moveChunkPos) < 0.5f)
             {
@@ -168,12 +154,56 @@ namespace Project.Scripts.Managers
                 Managers.LevelManager.Instance.MapChunkMatrix[currentChunkIndex].Remove(content);
                 Managers.LevelManager.Instance.MapChunkMatrix[moveChunkIndex].Add(content);
                 content.CurrentChunk = moveChunk;
-                Debug.Log("4444");
             }
                 
             content.gameObject.transform.position = currentPos;
         }
+
+        private static bool CheckCollisionInChunk(Content content,int chunkIndex)
+        {
+            if (Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].isRigid 
+                && Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].LayerRigidContentCounts[content.PhysicsLayers[0]] > 0)
+            {
+                foreach (var rigidContent in Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].ContentsRigid)
+                {
+                    if (rigidContent == content) continue;
+                    if (Vector2.Distance(content.transform.position, rigidContent.transform.position) < 1)
+                    {
+                        rigidContent.OnCollision(content);
+                        content.OnCollision(rigidContent);
+                        if (!rigidContent.IsStatic) rigidContent.AddForce(content.Velocity,1);
+                        if(!content.IsDummie)content.Velocity = Vector2.zero;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         
+        private static bool CheckCollisionInChunkNonRigid(Content content,int chunkIndex)
+        {
+            Debug.Log("1111");
+            if (Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].LayerNonRigidContentCounts[content.PhysicsLayers[0]] > 0)
+            {
+                Debug.Log("22222");
+
+                foreach (var nonRigidContent in Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].ContentsNonRigid)
+                {
+                    if (nonRigidContent == content) continue;
+                    if (Vector2.Distance(content.transform.position, nonRigidContent.transform.position) < 1)
+                    {
+                        Debug.Log("3333");
+
+                        nonRigidContent.OnCollision(content);
+                        content.OnCollision(nonRigidContent);
+                        if (!nonRigidContent.IsStatic) nonRigidContent.AddForce(content.Velocity,1);
+                        if(!content.IsDummie)content.Velocity = Vector2.zero;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         
         public void LevelStart(LevelManager levelManager)
         {

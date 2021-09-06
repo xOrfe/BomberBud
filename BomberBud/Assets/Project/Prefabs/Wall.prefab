@@ -53,7 +53,7 @@ MonoBehaviour:
   _mass: 0
   _friction: 0
   _collisionTag: 
-  _isDestroyable: 1
+  _isDestroyable: 0
 --- !u!212 &5562091221784850894
 SpriteRenderer:
   m_ObjectHideFlags: 0

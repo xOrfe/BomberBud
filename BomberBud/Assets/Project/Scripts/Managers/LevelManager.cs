@@ -124,6 +124,7 @@ namespace Project.Scripts.Managers
         //
 
         public int[] LayerRigidContentCounts;
+        public int[] LayerNonRigidContentCounts;
         
         public readonly Vector2Int Coord;
         public List<Content> ContentsRigid;
@@ -134,6 +135,7 @@ namespace Project.Scripts.Managers
         public MapChunk(Vector2Int Coord)
         {
             LayerRigidContentCounts = new int[3];
+            LayerNonRigidContentCounts = new int[3];
             ContentsRigid = new List<Content>();
             ContentsNonRigid = new List<Content>();
             this.Coord = Coord;
@@ -146,7 +148,11 @@ namespace Project.Scripts.Managers
                 ContentsRigid.Add(content);
                 foreach (var layer in content.PhysicsLayers) LayerRigidContentCounts[layer]++;
             }
-            else ContentsNonRigid.Add(content);
+            else
+            {
+                ContentsNonRigid.Add(content);
+                foreach (var layer in content.PhysicsLayers) LayerNonRigidContentCounts[layer]++;
+            }
         }
         public void Remove(Content content)
         {
@@ -155,7 +161,12 @@ namespace Project.Scripts.Managers
                 ContentsRigid.Remove(content);
                 foreach (var layer in content.PhysicsLayers) LayerRigidContentCounts[layer]--;
             }
-            else ContentsNonRigid.Remove(content);
+            else
+            {
+                ContentsNonRigid.Remove(content);
+                foreach (var layer in content.PhysicsLayers) LayerNonRigidContentCounts[layer]--;
+            }
+            
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Project.Scripts.Characters
         }
         public override void OnCollision(Content content)
         {
-            Debug.Log("Coll" + content.gameObject.name);
+            if (content.gameObject.tag == "AI") GameManager.Instance.IsGameplayRunning = false;
         }
         
         public override bool Attack()

@@ -9,22 +9,13 @@ namespace Project.Scripts
     {
         public ContentType ContentType { get; set; }
         
-        [SerializeField]private volatile int _currentChunkX;
-        [SerializeField]private volatile int _currentChunkY;
+        [SerializeField]private Vector2Int _currentChunk;
         public Vector2Int CurrentChunk
         {
-            get
-            {
-                Vector2Int pos = new Vector2Int(_currentChunkX, _currentChunkY);
-                return pos;
-            }
-            set
-            {
-                Debug.Log("Set");
-                _currentChunkX = value.x;
-                _currentChunkY = value.y;
-            }
+            get => _currentChunk;
+            set => _currentChunk = value;
         }
+
 
         [SerializeField]private bool _isDummie;
         public bool IsDummie
@@ -103,6 +94,7 @@ namespace Project.Scripts
             
             int chunk = Utils.GetIndexFromCoord(CurrentChunk,matrixScale);
             LevelManager.Instance.MapChunkMatrix[chunk].Remove(this);
+            Destroy(gameObject);
             return true;
         }
 

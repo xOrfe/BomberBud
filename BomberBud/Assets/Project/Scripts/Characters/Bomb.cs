@@ -33,10 +33,16 @@ namespace Project.Scripts.Characters
         {
             if (chunk >= 0  && chunk < LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixLength)
             {
-                foreach (var content in LevelManager.Instance.MapChunkMatrix[chunk].ContentsRigid)
-                    if (content.isDestroyable) content.Destroy();
-                foreach (var content in LevelManager.Instance.MapChunkMatrix[chunk].ContentsNonRigid)
-                    if (content.isDestroyable) content.Destroy();
+                var  contentsRigid= LevelManager.Instance.MapChunkMatrix[chunk].ContentsRigid;
+                var  contentsNonRigid= LevelManager.Instance.MapChunkMatrix[chunk].ContentsNonRigid;
+                
+                for (int i = 0; i < contentsRigid.Count;i++)
+                    if (contentsRigid[i].isDestroyable) contentsRigid[i].Destroy();
+                
+                for (int i = 0; i < contentsNonRigid.Count;i++)
+                    if (contentsNonRigid[i].isDestroyable) contentsNonRigid[i].Destroy();
+                
+                
             }
         }
     }

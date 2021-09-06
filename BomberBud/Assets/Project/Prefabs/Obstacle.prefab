@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cfd6d7b8e3b466cb6bb475b0d07051c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentChunk: {x: 0, y: 0}
+  _isDummie: 0
   _isRigid: 1
   _isStatic: 1
   _physicsLayers: 01000000
@@ -51,6 +53,7 @@ MonoBehaviour:
   _mass: 0
   _friction: 0
   _collisionTag: 
+  _isDestroyable: 1
 --- !u!212 &461732531754063735
 SpriteRenderer:
   m_ObjectHideFlags: 0
