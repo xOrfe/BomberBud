@@ -37,6 +37,7 @@ namespace Project.Scripts.Managers
         {
             PopulateMap();
             GameObject player = Instantiate(LevelDefinitionScriptable.MapDefinition.PlayerPrefab);
+            player.GetComponent<Content>().CurrentChunk = new Vector2Int(1, 1);
             player.transform.position = Utils.GetWorldFromIndex(LevelDefinitionScriptable.MapDefinition.MatrixScale.x + 1,LevelDefinitionScriptable.MapDefinition.MatrixScale);
         }
         

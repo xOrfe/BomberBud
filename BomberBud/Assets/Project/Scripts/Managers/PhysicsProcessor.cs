@@ -121,7 +121,7 @@ namespace Project.Scripts.Managers
                 if ((currentPos.y % 1) != 0) currentPos.y = Mathf.Round(currentPos.y);
                 moveChunk = new Vector2Int(0,(int)currentPos.y);
                 moveChunk.x = (int)Mathf.Round(currentPos.x) + (move.x > 0 ?  +1 : -1 );
-                moveChunk += Managers.LevelManager.Instance.LevelDefinitionScriptable.MapDefinition.MatrixScale / 2;
+                moveChunk += matrixScale / 2;
                 currentPos += new Vector2(move.x,0);
             }
             else
