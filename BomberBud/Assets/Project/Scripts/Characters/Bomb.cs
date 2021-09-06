@@ -20,12 +20,11 @@ namespace Project.Scripts.Characters
             for (int i = -2; i < +3; i++)
             {
                 int chunk = Utils.GetIndexFromCoord(CurrentChunk,matrixScale) + i;
-                DestroyChunk(chunk,matrixScale);
+                if((CurrentChunk.y % 2) != 0)DestroyChunk(chunk,matrixScale);
                 if (i == 0) continue;
                 chunk = Utils.GetIndexFromCoord(CurrentChunk,matrixScale) + (i * matrixScale.x);
-                DestroyChunk(chunk,matrixScale);
+                if((CurrentChunk.x % 2) != 0)DestroyChunk(chunk,matrixScale);
             }
-
             this.Destroy();
         }
 
