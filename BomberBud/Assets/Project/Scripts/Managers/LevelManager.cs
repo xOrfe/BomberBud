@@ -1,41 +1,159 @@
-﻿using Project.Scripts.Scriptables;
+﻿using System;
+using System.Collections.Generic;
+using Project.Scripts.Characters;
+using Project.Scripts.Scriptables;
 using UnityEngine;
+using UnityEngine.Serialization;
 using xOrfe.Utilities;
+using Random = UnityEngine.Random;
+using Utils = Project.Scripts.Utilities.Utilities;
 
 namespace Project.Scripts.Managers
 {
-    public abstract class LevelManager : SingletonUtility<LevelManager> , ILevelManagement
+    public class LevelManager : SingletonUtility<LevelManager>,ILevelManagement 
     {
-        public LevelDefinitionScriptable LevelDefinitionScriptable { get; set; }
+        [SerializeField]private LevelDefinitionScriptable _levelDefinitionScriptable;
+        public LevelDefinitionScriptable LevelDefinitionScriptable
+        {
+            get => _levelDefinitionScriptable;
+            set => _levelDefinitionScriptable = value;
+        }
         
+        [SerializeField]private MapChunk[] _mapChunkMatrix;
+        public MapChunk[] MapChunkMatrix
+        {
+            get => _mapChunkMatrix;
+            set => _mapChunkMatrix = value;
+        }
+        
+        public PlayerCharacterBase PlayerCharacterBase { get; set; }
+        public AICharacterBase[] AICharacterBases { get; set; }
+        private void Start()
+        {
+            PopulateWorld();
+            //GameManager.Instance.LevelStart(this);
+            Random.InitState(LevelDefinitionScriptable.MapDefinition.Seed);
+            GameManager.Instance.IsGameplayRunning = true;
+        }
         public void PopulateWorld()
         {
-            throw new System.NotImplementedException();
+            PopulateMap();
+            GameObject player = Instantiate(LevelDefinitionScriptable.MapDefinition.PlayerPrefab);
+            player.transform.position = Utils.GetWorldFromIndex(LevelDefinitionScriptable.MapDefinition.MatrixScale.x + 1,LevelDefinitionScriptable.MapDefinition.MatrixScale);
         }
         
         public void PopulateMap()
         {
-            throw new System.NotImplementedException();
+            SetupMapChunkMatrix();
+            PopulateOuterWalls();
+            for (int y = 1; y < LevelDefinitionScriptable.MapDefinition.MatrixScale.y -1; y++)
+            {
+                for (int x = 1; x < LevelDefinitionScriptable.MapDefinition.MatrixScale.x - 1; x++)
+                {
+                    bool isWall = ((x % 2) == 0) && ((y % 2) == 0);
+                    GameObject go = isWall
+                        ? LevelDefinitionScriptable.MapDefinition.WallPrefab
+                        : LevelDefinitionScriptable.MapDefinition.GroundPrefab;
+                    Vector2Int coord = new Vector2Int(x, y);
+                    CreateContent(coord, go);
+                }
+            }
+            int createdAI = 0;
+            foreach (var chunk in MapChunkMatrix)
+            {
+                if (chunk.isRigid || chunk.Coord.x < 3 || chunk.Coord.y < 3) continue;
+                
+                if (Random.Range(0, 100) > LevelDefinitionScriptable.MapDefinition.DestroyableSpawnProbability)
+                {
+                    if ((Random.Range(0, 100) > 70) && createdAI < LevelDefinitionScriptable.MapDefinition.AICharacterCount)
+                    {
+                        createdAI++;
+                        CreateContent(chunk.Coord, LevelDefinitionScriptable.MapDefinition.AICharacterPrefab);
+                    }
+                    continue;
+                }
+                CreateContent(chunk.Coord, LevelDefinitionScriptable.MapDefinition.ObstaclePrefab);
+            }
         }
-        
-        public void Progress(int progressAmount)
+        private void SetupMapChunkMatrix()
         {
-            throw new System.NotImplementedException();
+            MapChunkMatrix = new MapChunk[LevelDefinitionScriptable.MapDefinition.MatrixLength];
+            for (int i = 0; i < LevelDefinitionScriptable.MapDefinition.MatrixLength; i++)
+            {
+                MapChunkMatrix[i] = new MapChunk(Utils.GetCoordFromIndex(i, LevelDefinitionScriptable.MapDefinition.MatrixScale));
+            }
         }
+        private void PopulateOuterWalls()
+        {
+            GameObject go = LevelDefinitionScriptable.MapDefinition.WallPrefab;
+            for (int x = 0; x < LevelDefinitionScriptable.MapDefinition.MatrixScale.y; x++)
+            {
 
-        public void LevelStart()
-        {
-            throw new System.NotImplementedException();
+                CreateContent(new Vector2Int(0, x), go);
+                CreateContent(new Vector2Int(LevelDefinitionScriptable.MapDefinition.MatrixScale.x - 1, x), go);
+            }
+            
+            for (int y = 0; y < LevelDefinitionScriptable.MapDefinition.MatrixScale.x; y++)
+            {
+                CreateContent(new Vector2Int(y, 0), go);
+                CreateContent(new Vector2Int(y,LevelDefinitionScriptable.MapDefinition.MatrixScale.y - 1), go);
+            }
         }
-
-        public void LevelEnd()
+        public void CreateContent(Vector2Int pos,GameObject prefab)
         {
-            throw new System.NotImplementedException();
+            GameObject go = Instantiate(prefab);
+            go.transform.position = Utils.GetWorldFromCoordinate(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);
+            int index = Utils.GetIndexFromCoord(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);
+            MapChunkMatrix[index].Add(go.GetComponent<Content>());
         }
-        
         public void Reset()
         {
             throw new System.NotImplementedException();
+        }
+        
+    }
+
+    [System.Serializable]
+    public struct MapChunk
+    {
+        //
+        //TODO might be rigid sync Problem at runtime
+        //
+
+        public int[] LayerRigidContentCounts;
+        
+        public readonly Vector2Int Coord;
+        public List<Content> ContentsRigid;
+        public List<Content> ContentsNonRigid;
+        
+        public bool isRigid => ContentsRigid.Count > 0;
+
+        public MapChunk(Vector2Int Coord)
+        {
+            LayerRigidContentCounts = new int[3];
+            ContentsRigid = new List<Content>();
+            ContentsNonRigid = new List<Content>();
+            this.Coord = Coord;
+        }
+        
+        public void Add(Content content)
+        {
+            content.CurrentChunk = Coord;
+            if (content.IsRigid)
+            {
+                ContentsRigid.Add(content);
+                foreach (var layer in content.PhysicsLayers) LayerRigidContentCounts[layer]++;
+            }
+            else ContentsNonRigid.Add(content);
+        }
+        public void Remove(Content content)
+        {
+            if (content.IsRigid)
+            {
+                ContentsRigid.Remove(content);
+                foreach (var layer in content.PhysicsLayers) LayerRigidContentCounts[layer]--;
+            }
+            else ContentsNonRigid.Remove(content);
         }
     }
 }

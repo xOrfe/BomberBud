@@ -12,14 +12,20 @@ namespace Project.Scripts.Scriptables
     [System.Serializable]
     public class MapDefinition
     {
-        public Vector2Int MatrixScale{ set; get; }
-        public string MatMatrixName { set; get; }
+        [SerializeField,Range(0f, 10000f)] public int Seed;
+        [SerializeField,Range(0f, 20f)] public int AICharacterCount;
+        [SerializeField,Range(0f, 85f)] public int DestroyableSpawnProbability;
 
-        public MapDefinition(Vector2Int matrixScale)
-        {
-            MatrixScale = matrixScale;
-            
-        }
+        public GameObject PlayerPrefab;
         
+        public GameObject GroundPrefab;
+        public GameObject WallPrefab;
+        public GameObject ObstaclePrefab;
+        
+        public Sprite[] DestroyableTextures;
+        public GameObject AICharacterPrefab;
+
+        public Vector2Int MatrixScale;
+        public int MatrixLength => MatrixScale.x * MatrixScale.y;
     }
 }

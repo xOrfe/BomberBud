@@ -1,10 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using xOrfe.Utilities;
 
 namespace Project.Scripts.Managers
 {
-    public abstract class GameManager : SingletonUtility<GameManager>, IGameManagement
+    public sealed class GameManager : SingletonUtility<GameManager>, IGameManagement
     {
+
+        private void Start()
+        {
+            GameStart();
+        }
+
         public void Reset()
         {
             throw new System.NotImplementedException();
@@ -15,16 +22,37 @@ namespace Project.Scripts.Managers
         public event OnLevelEndDelegate OnLevelEnd;
         public event OnGameExitDelegate OnGameEnd;
         public event OnProgressDelegate OnProgress;
+        
+        private bool _isGameplayRunning;
+        public bool IsGameplayRunning
+        {
+            get => _isGameplayRunning;
+            set => _isGameplayRunning = value;
+        }
 
         public void GameStart()
         {
             OnGameStart?.Invoke();
         }
+        public void Progress(int progressAmount)
+        {
+            throw new System.NotImplementedException();
+        }
 
+        public void LevelStart(LevelManager levelManager)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void LevelEnd(bool succeed)
+        {
+            throw new System.NotImplementedException();
+        }
         public void GameEnd()
         {
             OnGameEnd?.Invoke();
 
         }
+
     }
 }

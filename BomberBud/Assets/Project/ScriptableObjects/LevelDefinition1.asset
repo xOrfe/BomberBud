@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1897506c233d4a9f9004a5e0723a50ac, type: 3}
+  m_Name: LevelDefinition1
+  m_EditorClassIdentifier: 
+  MapDefinition:
+    Seed: 2000
+    AICharacterCount: 6
+    DestroyableSpawnProbability: 25
+    PlayerPrefab: {fileID: 2244431976377327916, guid: 99ee9818dccddcb45a918d5868fb5b65,
+      type: 3}
+    GroundPrefab: {fileID: 3370777852202619897, guid: 52fcaa438ab77dc489e3546a4924e0c8,
+      type: 3}
+    WallPrefab: {fileID: 5562091221784850881, guid: e4d5cef1ccf786e4a850bb6cfb1ecc9c,
+      type: 3}
+    ObstaclePrefab: {fileID: 461732531754063736, guid: afc28a1a5ccbcde47ab49aa903756c17,
+      type: 3}
+    DestroyableTextures: []
+    AICharacterPrefab: {fileID: 3338260538207035020, guid: 745d97b9478f4bc4a91d4c5ebd889d9f,
+      type: 3}
+    MatrixScale: {x: 19, y: 11}
