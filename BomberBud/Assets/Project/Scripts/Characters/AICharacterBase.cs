@@ -18,7 +18,7 @@ namespace Project.Scripts.Characters
         
         private void OnDestroy()
         {
-            PhysicsProcessor.Instance.RemoveDummie(this);
+            PhysicsProcessor.Instance?.RemoveDummie(this);
         }
     }
 }
