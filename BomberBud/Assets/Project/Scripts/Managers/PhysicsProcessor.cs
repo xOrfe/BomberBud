@@ -182,18 +182,13 @@ namespace Project.Scripts.Managers
         
         private static bool CheckCollisionInChunkNonRigid(Content content,int chunkIndex)
         {
-            Debug.Log("1111");
             if (Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].LayerNonRigidContentCounts[content.PhysicsLayers[0]] > 0)
             {
-                Debug.Log("22222");
-
                 foreach (var nonRigidContent in Managers.LevelManager.Instance.MapChunkMatrix[chunkIndex].ContentsNonRigid)
                 {
                     if (nonRigidContent == content) continue;
                     if (Vector2.Distance(content.transform.position, nonRigidContent.transform.position) < 1)
                     {
-                        Debug.Log("3333");
-
                         nonRigidContent.OnCollision(content);
                         content.OnCollision(nonRigidContent);
                         if (!nonRigidContent.IsStatic) nonRigidContent.AddForce(content.Velocity,1);
