@@ -228,7 +228,9 @@ namespace Project.Scripts.Managers
         
         public void Reset()
         {
-            throw new NotImplementedException();
+            ProcessQueue = new List<Content>();
+            DummieQueue = new List<Content>();
+            PlayerCharacterBase = null;
         }
 
     }

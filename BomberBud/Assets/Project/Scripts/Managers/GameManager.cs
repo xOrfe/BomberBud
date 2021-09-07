@@ -70,6 +70,7 @@ namespace Project.Scripts.Managers
             
             if (succeed) CurrentLevel++;
 
+            PhysicsProcessor.Instance.Reset();
             StartCoroutine(LoadLevelCall(2f));
             
             OnGameEnd?.Invoke();
