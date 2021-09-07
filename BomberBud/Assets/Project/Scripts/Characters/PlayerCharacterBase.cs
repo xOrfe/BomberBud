@@ -19,7 +19,7 @@ namespace Project.Scripts.Characters
         }
         public override void OnCollision(Content content)
         {
-            if (content.gameObject.tag == "AI") GameManager.Instance.IsGameplayRunning = false;
+            if (content.gameObject.tag == "AI") GameManager.Instance.LevelEnd(false);
         }
         
         public override bool Attack()
@@ -34,7 +34,7 @@ namespace Project.Scripts.Characters
         
         public override bool Destroy()
         {
-            GameManager.Instance.IsGameplayRunning = false;
+            GameManager.Instance.LevelEnd(false);
             Destroy(gameObject);
             return true;
         }

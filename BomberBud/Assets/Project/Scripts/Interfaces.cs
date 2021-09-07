@@ -61,6 +61,9 @@ namespace Project.Scripts
     public delegate void OnProgressDelegate(int val);
     public interface IGameManagement : IManagement
     {
+        int CurrentLevel { get; set; }
+        LevelDefinitionScriptable[] LevelDefinitions { get; set; }
+        
         event OnGameStartDelegate OnGameStart;
         event OnLevelStartDelegate OnLevelStart;
         event OnLevelEndDelegate OnLevelEnd;

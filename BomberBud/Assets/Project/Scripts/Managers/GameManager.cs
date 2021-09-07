@@ -1,19 +1,39 @@
-﻿using xOrfe.Utilities;
+﻿using System.Collections;
+using Project.Scripts.Scriptables;
+using UnityEngine;
+using xOrfe.Utilities;
 
 namespace Project.Scripts.Managers
 {
     public sealed class GameManager : SingletonUtility<GameManager>, IGameManagement
     {
+        
+        [SerializeField]private int _currentLevel;
+        public int CurrentLevel
+        {
+            get => _currentLevel;
+            set => _currentLevel = value;
+        }
+        
+        [SerializeField]private LevelDefinitionScriptable[] _levelDefinitions;
+        public LevelDefinitionScriptable[] LevelDefinitions
+        {
+            get => _levelDefinitions;
+            set => _levelDefinitions = value;
+        }
 
         private void Start()
         {
             GameStart();
+            LevelManager.Instance.StartLevel(LevelDefinitions[_currentLevel]);
         }
 
         public void Reset()
         {
             throw new System.NotImplementedException();
         }
+        
+        
 
         public event OnGameStartDelegate OnGameStart;
         public event OnLevelStartDelegate OnLevelStart;
@@ -22,6 +42,7 @@ namespace Project.Scripts.Managers
         public event OnProgressDelegate OnProgress;
         
         private bool _isGameplayRunning;
+
         public bool IsGameplayRunning
         {
             get => _isGameplayRunning;
@@ -45,7 +66,20 @@ namespace Project.Scripts.Managers
 
         public void LevelEnd(bool succeed)
         {
+            GameManager.Instance.IsGameplayRunning = false;
+            
+            if (succeed) CurrentLevel++;
+
+            StartCoroutine(LoadLevelCall(2f));
+            
             OnGameEnd?.Invoke();
+        }
+
+        private IEnumerator LoadLevelCall(float time)
+        {
+            yield return new WaitForSeconds(time);
+            LevelManager.Instance.StartLevel(LevelDefinitions[_currentLevel]);
+
         }
         
         public void GameEnd()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Project.Scripts.Characters;
 using Project.Scripts.Scriptables;
 using UnityEngine;
@@ -26,8 +27,14 @@ namespace Project.Scripts.Managers
         
         public PlayerCharacterBase PlayerCharacterBase { get; set; }
         public AICharacterBase[] AICharacterBases { get; set; }
-        private void Start()
+        
+        
+        
+        public void StartLevel(LevelDefinitionScriptable levelDefinitionScriptable)
         {
+            LevelDefinitionScriptable = LevelDefinitionScriptable;
+            Reset();
+            
             PopulateWorld();
             //GameManager.Instance.LevelStart(this);
             Random.InitState(LevelDefinitionScriptable.MapDefinition.Seed);
@@ -135,7 +142,7 @@ namespace Project.Scripts.Managers
         }
         public void Reset()
         {
-            throw new System.NotImplementedException();
+            transform.ClearChilds();
         }
         
     }
@@ -191,6 +198,16 @@ namespace Project.Scripts.Managers
                 foreach (var layer in content.PhysicsLayers) LayerNonRigidContentCounts[layer]--;
             }
             
+        }
+    }
+    
+    public static class TransformEx {
+        public static Transform ClearChilds(this Transform transform)
+        {
+            foreach (Transform child in transform) {
+                GameObject.Destroy(child.gameObject);
+            }
+            return transform;
         }
     }
 }
