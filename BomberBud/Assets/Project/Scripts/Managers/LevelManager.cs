@@ -72,7 +72,7 @@ namespace Project.Scripts.Managers
                     CreateContent(coord, go);
                     if (isWall && Random.Range(0, 100) > 90 && !doorCloned)
                     {
-                        doorCloned = false;
+                        doorCloned = true;
                         CreateContent(coord, LevelDefinitionScriptable.MapDefinition.DoorPrefab);
                     }
                 }
