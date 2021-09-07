@@ -124,7 +124,7 @@ namespace Project.Scripts.Managers
         }
         public void CreateContent(Vector2Int pos,GameObject prefab, bool isEmpty = false)
         {
-            GameObject go = Instantiate(prefab);
+            GameObject go = Instantiate(prefab,this.gameObject.transform);
             go.transform.position = Utils.GetWorldFromCoordinate(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);
             if (isEmpty) return;
             int index = Utils.GetIndexFromCoord(pos,LevelDefinitionScriptable.MapDefinition.MatrixScale);

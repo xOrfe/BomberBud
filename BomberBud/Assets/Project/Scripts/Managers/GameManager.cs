@@ -39,13 +39,15 @@ namespace Project.Scripts.Managers
 
         public void LevelStart(LevelManager levelManager)
         {
-            throw new System.NotImplementedException();
+            OnLevelStart?.Invoke(levelManager);
+
         }
 
         public void LevelEnd(bool succeed)
         {
-            throw new System.NotImplementedException();
+            OnGameEnd?.Invoke();
         }
+        
         public void GameEnd()
         {
             OnGameEnd?.Invoke();

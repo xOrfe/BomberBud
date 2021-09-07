@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1897506c233d4a9f9004a5e0723a50ac, type: 3}
-  m_Name: LevelDefinition1
+  m_Name: LevelDefinition2
   m_EditorClassIdentifier: 
   MapDefinition:
-    Seed: 3341
-    AICharacterCount: 5
-    DestroyableSpawnProbability: 40
+    Seed: 2000
+    AICharacterCount: 8
+    DestroyableSpawnProbability: 29
     PlayerPrefab: {fileID: 2244431976377327916, guid: 99ee9818dccddcb45a918d5868fb5b65,
       type: 3}
     GroundPrefab: {fileID: 3370777852202619897, guid: 52fcaa438ab77dc489e3546a4924e0c8,
@@ -29,4 +29,4 @@ MonoBehaviour:
     DestroyableTextures: []
     AICharacterPrefab: {fileID: 3338260538207035020, guid: 745d97b9478f4bc4a91d4c5ebd889d9f,
       type: 3}
-    MatrixScale: {x: 23, y: 13}
+    MatrixScale: {x: 28, y: 17}

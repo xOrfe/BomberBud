@@ -48,7 +48,7 @@ MonoBehaviour:
   _isDummie: 0
   _isRigid: 0
   _isStatic: 1
-  _physicsLayers: 000000000100000002000000
+  _physicsLayers: 00000000
   _velocity: {x: 0, y: 0}
   _mass: 0
   _friction: 0
