@@ -22,6 +22,7 @@ namespace Project.Scripts.Scriptables
         public GameObject WallPrefab;
         public GameObject EmptyWallPrefab;
         public GameObject ObstaclePrefab;
+        public GameObject DoorPrefab;
         
         public Sprite[] DestroyableTextures;
         public GameObject AICharacterPrefab;

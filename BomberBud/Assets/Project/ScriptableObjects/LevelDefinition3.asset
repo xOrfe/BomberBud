@@ -26,6 +26,8 @@ MonoBehaviour:
       type: 3}
     ObstaclePrefab: {fileID: 461732531754063736, guid: afc28a1a5ccbcde47ab49aa903756c17,
       type: 3}
+    DoorPrefab: {fileID: 7648762274820879302, guid: 22b76cc1db11ba64c84829255a84c69e,
+      type: 3}
     DestroyableTextures: []
     AICharacterPrefab: {fileID: 3338260538207035020, guid: 745d97b9478f4bc4a91d4c5ebd889d9f,
       type: 3}
