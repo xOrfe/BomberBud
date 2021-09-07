@@ -59,7 +59,6 @@ namespace Project.Scripts.Managers
         {
             SetupMapChunkMatrix();
             PopulateOuterWalls();
-            bool doorCloned = false;
             for (int y = 1; y < LevelDefinitionScriptable.MapDefinition.MatrixScale.y -1; y++)
             {
                 for (int x = 1; x < LevelDefinitionScriptable.MapDefinition.MatrixScale.x - 1; x++)
@@ -70,13 +69,10 @@ namespace Project.Scripts.Managers
                         : LevelDefinitionScriptable.MapDefinition.GroundPrefab;
                     Vector2Int coord = new Vector2Int(x, y);
                     CreateContent(coord, go);
-                    if (isWall && Random.Range(0, 100) > 90 && !doorCloned)
-                    {
-                        doorCloned = true;
-                        CreateContent(coord, LevelDefinitionScriptable.MapDefinition.DoorPrefab);
-                    }
+                    
                 }
             }
+            bool doorCloned = false;
             int createdAI = 0;
             foreach (var chunk in MapChunkMatrix)
             {
@@ -92,6 +88,12 @@ namespace Project.Scripts.Managers
                     continue;
                 }
                 CreateContent(chunk.Coord, LevelDefinitionScriptable.MapDefinition.ObstaclePrefab);
+
+                if (Random.Range(0, 100) > 90 && !doorCloned)
+                {
+                    doorCloned = true;
+                    CreateContent(chunk.Coord, LevelDefinitionScriptable.MapDefinition.DoorPrefab);
+                }
             }
         }
         private void SetupMapChunkMatrix()
