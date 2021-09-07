@@ -19,8 +19,9 @@ namespace Project.Scripts.Characters
         }
         public override void OnCollision(Content content)
         {
+            Debug.Log(content.gameObject.name);
             if (content.gameObject.tag == "AI") GameManager.Instance.LevelEnd(false);
-            if (content.gameObject.tag == "Dooe") GameManager.Instance.LevelEnd(true);
+            if (content.gameObject.tag == "Door") GameManager.Instance.LevelEnd(true);
         }
         
         public override bool Attack()
